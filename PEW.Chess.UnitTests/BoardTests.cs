@@ -48,18 +48,23 @@ public class BoardTests
     [Fact]
     public void A_chess_board_square_should_have_a_to_h_plus_a_1_to_8_notation()
     {
-        const string letters = "ABCDEFGH";
         var chessboard = Board.Build();
         
         chessboard.Squares.ShouldNotBeNull();
         
-        chessboard.Squares.Skip(0).First().ToString().ShouldBe("A:1");
-        chessboard.Squares.Skip(1).First().ToString().ShouldBe("B:1");
-        chessboard.Squares.Skip(2).First().ToString().ShouldBe("C:1");
-        chessboard.Squares.Skip(3).First().ToString().ShouldBe("D:1");
-        chessboard.Squares.Skip(4).First().ToString().ShouldBe("E:1");
-        chessboard.Squares.Skip(5).First().ToString().ShouldBe("F:1");
-        chessboard.Squares.Skip(6).First().ToString().ShouldBe("G:1");
-        chessboard.Squares.Skip(7).First().ToString().ShouldBe("H:1");
+        string[] letters = { "A", "B", "C", "D", "E", "F", "G", "H" };
+        int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8 };
+
+        foreach (int number in numbers)
+        {
+            for (int i = 0; i < letters.Length; i++)
+            {
+                int index = (number - 1) * 8 + i;
+                string letter = letters[i];
+                string expected = $"{letter}:{number}";
+                string actual = chessboard.Squares.Skip(index).First().ToString();
+                actual.ShouldBe(expected);
+            }
+        }
     }
 }
